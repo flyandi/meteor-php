@@ -1,5 +1,7 @@
-// Write your tests here!
-// Here is an example.
-Tinytest.add('example', function (test) {
+/*
+ * Tests for php.js
+ */
+
+Tinytest.add('version', function (test) {
   test.equal(true, true);
 });
