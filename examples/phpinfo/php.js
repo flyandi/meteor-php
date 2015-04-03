@@ -57,14 +57,29 @@ PHP = {
 		return Meteor.settings.php[name] || false;
 	},
 
-
 	/**
 	 * ::render
 	 */
 
-	render: function(code, callback) {
+	render: function() {
 
-		PHP.interact(code, "-r", callback);
+		var code = arguments[0],
+			params = Array.prototype.slice.call(arguments).slice(1);
+
+		code = code.replace(/{(\d+)}/g, function(match, index) {
+
+			var result = typeof(params[index]) != "function" && typeof(index) != "undefined" ? params[index] : match;
+
+			return typeof(result) == "number" ? result : '"' + result + '"';
+		});
+
+		console.log(code);
+
+		PHP.interact(
+			code, 
+			"-r", 
+			typeof(params[params.length -1]) == "function" ? params[params.length -1] : null
+		);
 	
 	},
 
