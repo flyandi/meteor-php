@@ -3,5 +3,12 @@
 </head>
 
 <body>
-  {{PHP.render 'phpinfo();'}}
+	{{> foo}}
+
 </body>
+
+<template name="foo">
+
+	  {{PHP.render 'phpinfo();'}}
+
+</template>

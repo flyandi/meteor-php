@@ -1,5 +1,11 @@
 
 
+if(Meteor.isClient) {
+
+}
+
+/*
+
 if(Meteor.isServer) {
 
 	// Render echo test
@@ -13,4 +19,4 @@ if(Meteor.isServer) {
 		console.log(output);
 	});
 
-}
+}*/
