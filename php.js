@@ -73,9 +73,7 @@ PHP = {
 			return typeof(result) == "number" ? result : '"' + result + '"';
 		});
 
-		console.log(code);
-
-		PHP.interact(
+		return PHP.interact(
 			code, 
 			"-r", 
 			typeof(params[params.length -1]) == "function" ? params[params.length -1] : null
@@ -92,6 +90,8 @@ PHP = {
 
 		if(Meteor.isServer) {
 			this._interact(input, params, callback);
+		} else {
+			return Meteor.call("php_interact", input, params);
 		}
 	},
 
@@ -119,11 +119,9 @@ if(Meteor.isClient) {
 
 if(Meteor.isServer) {
 
-	PHP._process = Npm.require('child_process');
-
 	PHP._interact = function(input, params, callback) {
 
-		var cmd = this._process.spawn("php", [params, input]),
+		var cmd = Npm.require('child_process').spawn("php", [params, input]),
 			results = false,
 			errors = false;
 
@@ -141,7 +139,30 @@ if(Meteor.isServer) {
 			}
 		});
 	};
-		
 
 }
+
+
+/**
+ * ::(methods)
+ */
+
+Meteor.methods({
+
+	php_interact: function(input, params) {
+
+		if(!this.isSimulation && Meteor.isServer) {
+
+			return Meteor.wrapAsync(function(callback) {
+
+				PHP._interact(input, params, function(result, error) {
+					console.log(result);
+					callback(result || error);
+				});	
+
+			});		
+		}
+	}
+
+});
 
