@@ -41,6 +41,17 @@ PHP = {
 
 	_config: Meteor.settings && Meteor.settings.php ? Meter.settings.php : {},
 
+	_method : PHP.use.standalone,
+
+	/**
+	 * ::enums
+	 */
+
+	use: {
+		standalone: 'php',
+		fpm: 'fpm'
+	},
+
 	/** 
 	 * ::helpers
 	 */
